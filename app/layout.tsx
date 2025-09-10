@@ -7,8 +7,8 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="relative min-h-screen text-gray-800 overflow-x-hidden">
+    <html lang="en" className="w-full h-full">
+      <body className="w-full min-h-screen text-gray-800 overflow-x-hidden relative">
         {/* Background gradien + waves */}
         <div className="absolute inset-0 -z-10">
           <div className="absolute inset-0 bg-gradient-to-r from-sky-300 via-sky-400 to-sky-500 animate-gradientMove"></div>
