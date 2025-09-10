@@ -3,7 +3,14 @@ set -e
 
 # === SETUP NEXT.JS PROJECT ===
 echo "🚀 Membuat project Next.js 15..."
-npx create-next-app@latest dsrt-landing --typescript --tailwind --eslint --app --no-src-dir --import-alias "@/*"
+npx create-next-app@latest dsrt-landing \
+  --typescript \
+  --tailwind \
+  --eslint \
+  --app \
+  --no-src-dir \
+  --import-alias "@/*" \
+  --yes
 
 cd dsrt-landing
 
