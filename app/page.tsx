@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Section from "@/components/Section"
 import { Bot, Video, Image, Eraser } from "lucide-react"
@@ -9,18 +9,41 @@ import { FaInstagram, FaGithub, FaFacebook } from "react-icons/fa"
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false)
 
+  // disable scroll ketika side menu terbuka
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "auto"
+  }, [menuOpen])
+
   return (
     <main className="w-full overflow-x-hidden">
 
       {/* Navbar */}
       <nav className="flex justify-between items-center px-4 sm:px-6 lg:px-8 py-3
-                      bg-white/70 backdrop-blur-md border border-gray-300/50
+                      bg-white/70 backdrop-blur-md border-b border-blue-500
                       shadow-md sticky top-0 z-50">
         <div className="font-bold text-lg sm:text-xl">DSRT</div>
-        <button className="text-2xl sm:text-3xl" onClick={() => setMenuOpen(true)}>☰</button>
+        <button
+          className="text-2xl sm:text-3xl p-2 sm:p-3 focus:outline-none"
+          onClick={() => setMenuOpen(true)}
+        >
+          ☰
+        </button>
       </nav>
 
-      {/* Side Menu (Burger Drawer) */}
+      {/* Backdrop untuk tap menutup side menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 bg-black/30"
+            onClick={() => setMenuOpen(false)}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Side Menu */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -28,15 +51,17 @@ export default function Page() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 right-0 h-full w-[80vw] max-w-xs sm:max-w-sm bg-white/90 
-                       backdrop-blur-md border-l border-gray-300/50 shadow-xl z-50 flex flex-col"
+            className="fixed top-0 right-0 h-full w-[80vw] max-w-xs sm:max-w-sm
+                       bg-white/90 backdrop-blur-md border-l border-blue-500 shadow-xl z-50 flex flex-col"
           >
-            {/* Close Button */}
             <div className="flex justify-end p-4">
-              <button onClick={() => setMenuOpen(false)} className="text-xl sm:text-2xl font-bold">✕</button>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-xl sm:text-2xl font-bold p-2 sm:p-3 focus:outline-none"
+              >
+                ✕
+              </button>
             </div>
-
-            {/* Menu Items */}
             <nav className="flex flex-col px-4 sm:px-6 space-y-4 text-lg font-medium">
               <a href="#home" onClick={() => setMenuOpen(false)} className="hover:text-sky-600">Home</a>
               <a href="#features" onClick={() => setMenuOpen(false)} className="hover:text-sky-600">Features</a>
@@ -76,7 +101,7 @@ export default function Page() {
             title: "All Removed",
             desc: "Easily remove unwanted objects or backgrounds."
           }].map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center p-4 sm:p-6 border border-gray-300/50
+            <div key={idx} className="flex flex-col items-center p-4 sm:p-6 border border-blue-500
                                        rounded-xl bg-white/60 hover:shadow-md transition w-full">
               {item.icon}
               <h3 className="font-semibold text-lg mb-2 text-center">{item.title}</h3>
@@ -98,22 +123,22 @@ export default function Page() {
       <Section title="FOLLOW US">
         <div id="follow" className="flex justify-center gap-4 sm:gap-6">
           <a href="https://instagram.com" target="_blank"
-             className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
-                        border border-gray-300/50 rounded-full bg-white/60
+             className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center 
+                        border border-blue-500 rounded-full bg-white/60
                         hover:scale-110 hover:bg-sky-100 transition transform">
-            <FaInstagram className="w-5 h-5 sm:w-6 sm:h-6 text-pink-500" />
+            <FaInstagram className="w-6 h-6 sm:w-7 sm:h-7 text-pink-500" />
           </a>
           <a href="https://github.com" target="_blank"
-             className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
-                        border border-gray-300/50 rounded-full bg-white/60
+             className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center 
+                        border border-blue-500 rounded-full bg-white/60
                         hover:scale-110 hover:bg-sky-100 transition transform">
-            <FaGithub className="w-5 h-5 sm:w-6 sm:h-6 text-gray-800" />
+            <FaGithub className="w-6 h-6 sm:w-7 sm:h-7 text-gray-800" />
           </a>
           <a href="https://facebook.com" target="_blank"
-             className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center 
-                        border border-gray-300/50 rounded-full bg-white/60
+             className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center 
+                        border border-blue-500 rounded-full bg-white/60
                         hover:scale-110 hover:bg-sky-100 transition transform">
-            <FaFacebook className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
+            <FaFacebook className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600" />
           </a>
         </div>
       </Section>
@@ -129,6 +154,7 @@ export default function Page() {
       <Section>
         <p className="text-center text-sm sm:text-base">© 2025 DSRT. All rights reserved.</p>
       </Section>
+
     </main>
   )
-}
+          }
